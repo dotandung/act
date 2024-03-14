@@ -173,6 +173,7 @@ def main(args):
 
             for name, array in data_dict.items():
                 root[name][...] = array
+            print('finish transfering')
         print(f'Saving: {time.time() - t0:.1f} secs\n')
 
     print(f'Saved to {dataset_dir}')

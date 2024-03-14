@@ -6,6 +6,7 @@ import argparse
 
 import matplotlib.pyplot as plt
 from constants import DT
+import time
 
 import IPython
 e = IPython.embed
@@ -65,6 +66,14 @@ def save_videos(video, dt, video_path=None):
             all_cam_videos.append(video[cam_name])
         all_cam_videos = np.concatenate(all_cam_videos, axis=2) # width dimension
 
+        ax = plt.subplot()
+        plt_img = ax.imshow(all_cam_videos[0])
+        plt.ion()
+        for idx, img in enumerate(all_cam_videos):
+            print(idx)
+            plt_img.set_data(img)
+            plt.pause(0.05)
+
         n_frames, h, w, _ = all_cam_videos.shape
         fps = int(1 / dt)
         out = cv2.VideoWriter(video_path, cv2.VideoWriter_fourcc(*'mp4v'), fps, (w, h))
@@ -98,7 +107,7 @@ def visualize_joints(qpos_list, command_list, plot_path=None, ylim=None, label_o
         ax.legend()
 
     # plot arm command
-    for dim_idx in range(num_dim):
+    for dim_idx in range(num_dim-1):
         ax = axs[dim_idx]
         ax.plot(command[:, dim_idx], label=label2)
         ax.legend()
